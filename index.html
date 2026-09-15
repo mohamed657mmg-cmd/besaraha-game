@@ -62,9 +62,11 @@ button{
   width:100%;
   padding:28px 20px;
   border-radius:30px;
-  background:rgba(17,18,43,.88);
+  background:rgba(17,18,43,.9);
   border:1px solid rgba(130,108,255,.35);
-  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.35),
+    0 0 40px rgba(93,64,180,.12);
 }
 
 .welcome-crown{
@@ -96,6 +98,10 @@ button{
   line-height:1.7;
 }
 
+/* =========================
+   الاسم
+========================= */
+
 .name-input{
   width:100%;
   margin-top:25px;
@@ -107,45 +113,71 @@ button{
   color:white;
   text-align:center;
   font-size:17px;
+  transition:.2s;
+}
+
+.name-input::placeholder{
+  color:#70728e;
 }
 
 .name-input:focus{
   border-color:#8871ff;
+  box-shadow:0 0 18px rgba(136,113,255,.15);
 }
+
+/* =========================
+   اختيار الشخصية
+========================= */
 
 .choose-title{
   margin-top:22px;
   font-size:14px;
-  color:#b9bad0;
+  color:#c0c1d5;
   font-weight:bold;
 }
 
 .avatars{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:13px;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  justify-items:center;
+  gap:13px;
+  margin-top:15px;
 }
 
 .avatar-choice{
-  width:54px;
-  height:54px;
-  border-radius:50%;
+  width:62px;
+  height:62px;
+  border-radius:20px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:27px;
-  background:#202344;
-  border:2px solid transparent;
+  font-size:34px;
+  background:
+    linear-gradient(145deg,#292c58,#171936);
+  border:2px solid rgba(125,110,230,.25);
   transition:.2s;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.08),
+    0 7px 15px rgba(0,0,0,.2);
+}
+
+.avatar-choice:active{
+  transform:scale(.92);
 }
 
 .avatar-choice.selected{
   border-color:#ffc52c;
-  box-shadow:0 0 18px rgba(255,193,43,.35);
+  background:
+    linear-gradient(145deg,#40355f,#222044);
+  box-shadow:
+    0 0 0 3px rgba(255,197,44,.12),
+    0 0 25px rgba(255,197,44,.35);
   transform:scale(1.08);
 }
+
+/* =========================
+   زر البداية
+========================= */
 
 .start{
   width:100%;
@@ -156,7 +188,9 @@ button{
   color:#171522;
   font-size:21px;
   font-weight:1000;
-  box-shadow:0 6px #c96715;
+  box-shadow:
+    0 6px #c96715,
+    0 12px 25px rgba(255,165,24,.15);
 }
 
 .start:active{
@@ -222,6 +256,7 @@ button{
   background:#24264d;
   border:3px solid #ffc52f;
   font-size:28px;
+  box-shadow:0 0 15px rgba(255,197,47,.12);
 }
 
 .player{
@@ -282,7 +317,9 @@ button{
   font-size:24px;
 }
 
-/* الشعار */
+/* =========================
+   الشعار
+========================= */
 
 .hero{
   text-align:center;
@@ -317,7 +354,9 @@ button{
   font-weight:900;
 }
 
-/* زر اللعب */
+/* =========================
+   زر اللعب
+========================= */
 
 .play{
   width:100%;
@@ -350,7 +389,9 @@ button{
   color:#ffc52d;
 }
 
-/* الكروت */
+/* =========================
+   الكروت
+========================= */
 
 .cards{
   display:grid;
@@ -410,7 +451,9 @@ button{
   color:#a99aff;
 }
 
-/* الفوتر */
+/* =========================
+   الفوتر
+========================= */
 
 .footer{
   margin-top:30px;
@@ -438,7 +481,9 @@ button{
   font-size:20px;
 }
 
-/* الرسالة */
+/* =========================
+   الرسالة
+========================= */
 
 .toast{
   position:fixed;
@@ -462,20 +507,33 @@ button{
   transform:translate(-50%,0);
 }
 
+/* =========================
+   الحركة
+========================= */
+
 @keyframes float{
   0%,100%{
     transform:translateY(0);
   }
+
   50%{
     transform:translateY(-7px);
   }
 }
+
+/* =========================
+   الشاشات الصغيرة
+========================= */
 
 @media(max-width:380px){
 
   .app{
     padding-left:13px;
     padding-right:13px;
+  }
+
+  .welcome-logo{
+    font-size:52px;
   }
 
   .logo{
@@ -498,13 +556,21 @@ button{
   .card-title{
     font-size:17px;
   }
+
+  .avatar-choice{
+    width:57px;
+    height:57px;
+    font-size:31px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- شاشة إنشاء اللاعب -->
+<!-- =========================
+     شاشة البداية
+========================= -->
 
 <section id="welcomeScreen" class="welcome">
 
@@ -512,7 +578,9 @@ button{
 
     <div class="welcome-box">
 
-      <div class="welcome-crown">👑</div>
+      <div class="welcome-crown">
+        👑
+      </div>
 
       <div class="welcome-logo">
         بِصراحة
@@ -537,21 +605,88 @@ button{
         autocomplete="off">
 
       <div class="choose-title">
-        اختار شخصيتك
+        اختار شخصيتك 🎭
       </div>
 
       <div class="avatars">
 
-        <button class="avatar-choice selected" onclick="chooseAvatar(this,'🧑🏻')">🧑🏻</button>
-        <button class="avatar-choice" onclick="chooseAvatar(this,'👨🏻')">👨🏻</button>
-        <button class="avatar-choice" onclick="chooseAvatar(this,'🧔🏻')">🧔🏻</button>
-        <button class="avatar-choice" onclick="chooseAvatar(this,'👩🏻')">👩🏻</button>
-        <button class="avatar-choice" onclick="chooseAvatar(this,'🧑🏽')">🧑🏽</button>
-        <button class="avatar-choice" onclick="chooseAvatar(this,'👨🏽')">👨🏽</button>
+        <button
+          class="avatar-choice selected"
+          onclick="chooseAvatar(this,'🧑‍🎤')">
+          🧑‍🎤
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'👨‍🚀')">
+          👨‍🚀
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'🧑‍💻')">
+          🧑‍💻
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'🧙‍♂️')">
+          🧙‍♂️
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'🥷')">
+          🥷
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'👩‍🎨')">
+          👩‍🎨
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'🧑‍🚀')">
+          🧑‍🚀
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'🦸‍♂️')">
+          🦸‍♂️
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'🦸‍♀️')">
+          🦸‍♀️
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'🧛‍♂️')">
+          🧛‍♂️
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'🧑‍🔬')">
+          🧑‍🔬
+        </button>
+
+        <button
+          class="avatar-choice"
+          onclick="chooseAvatar(this,'👨‍🍳')">
+          👨‍🍳
+        </button>
 
       </div>
 
-      <button class="start" onclick="createPlayer()">
+      <button
+        class="start"
+        onclick="createPlayer()">
         ابدأ اللعب 🎮
       </button>
 
@@ -562,7 +697,9 @@ button{
 </section>
 
 
-<!-- الشاشة الرئيسية -->
+<!-- =========================
+     الشاشة الرئيسية
+========================= -->
 
 <section id="homeScreen" class="hidden">
 
@@ -575,13 +712,17 @@ button{
 
       <div class="profile">
 
-        <div class="avatar" id="playerAvatar">
-          🧑🏻
+        <div
+          class="avatar"
+          id="playerAvatar">
+          🧑‍🎤
         </div>
 
         <div class="player">
 
-          <div class="name" id="playerName">
+          <div
+            class="name"
+            id="playerName">
             اللاعب
           </div>
 
@@ -631,6 +772,8 @@ button{
     </section>
 
 
+    <!-- زر اللعب -->
+
     <button
       class="play"
       onclick="startGame()">
@@ -643,6 +786,8 @@ button{
 
     </button>
 
+
+    <!-- الكروت -->
 
     <section class="cards">
 
@@ -751,16 +896,21 @@ button{
 
 <script>
 
-let selectedAvatar = "🧑🏻";
+let selectedAvatar = "🧑‍🎤";
 
 
-/* اختيار الشخصية */
+/* =========================
+   اختيار الشخصية
+========================= */
 
 function chooseAvatar(button,avatar){
 
-  document.querySelectorAll(".avatar-choice")
+  document
+    .querySelectorAll(".avatar-choice")
     .forEach(function(item){
+
       item.classList.remove("selected");
+
     });
 
   button.classList.add("selected");
@@ -769,7 +919,9 @@ function chooseAvatar(button,avatar){
 }
 
 
-/* إنشاء اللاعب */
+/* =========================
+   إنشاء اللاعب
+========================= */
 
 function createPlayer(){
 
@@ -794,11 +946,12 @@ function createPlayer(){
   );
 
   loadPlayer();
-
 }
 
 
-/* تحميل اللاعب */
+/* =========================
+   تحميل بيانات اللاعب
+========================= */
 
 function loadPlayer(){
 
@@ -839,18 +992,20 @@ function loadPlayer(){
 }
 
 
-/* زر اللعب */
+/* =========================
+   زر اللعب
+========================= */
 
 function startGame(){
 
-  showToast(
-    "🎮 أول تحدي هيبدأ قريب!"
-  );
+  window.location.href = "game.html";
 
 }
 
 
-/* الرسائل */
+/* =========================
+   الرسائل
+========================= */
 
 function showToast(text){
 
@@ -869,7 +1024,9 @@ function showToast(text){
 }
 
 
-/* تشغيل اللعبة */
+/* =========================
+   تشغيل اللعبة
+========================= */
 
 loadPlayer();
 
