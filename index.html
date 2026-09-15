@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080914">
+<title>بِصراحة 🎮</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  min-height:100vh;
+  font-family:Tahoma,Arial,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at 50% 20%,#30205c 0%,transparent 35%),
+    radial-gradient(circle at 0% 100%,#25183e 0%,transparent 35%),
+    linear-gradient(145deg,#070811,#11152e 55%,#080914);
+  overflow-x:hidden;
+}
+
+button{
+  font-family:inherit;
+  border:0;
+  cursor:pointer;
+}
+
+.app{
+  width:100%;
+  max-width:480px;
+  min-height:100vh;
+  margin:auto;
+  padding:18px 16px 30px;
+  position:relative;
+}
+
+/* خلفية */
+.glow{
+  position:fixed;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:.18;
+  pointer-events:none;
+}
+
+.glow1{
+  background:#8c4cff;
+  top:-90px;
+  right:-80px;
+}
+
+.glow2{
+  background:#ffad19;
+  bottom:80px;
+  left:-120px;
+}
+
+/* الهيدر */
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.profile{
+  flex:1;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:7px 10px 7px 7px;
+  border-radius:22px;
+  background:rgba(19,21,47,.88);
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 8px 25px rgba(0,0,0,.2);
+}
+
+.avatar{
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#ffc62d,#ff7517);
+  border:3px solid #ffd04a;
+  font-size:25px;
+  box-shadow:0 0 18px rgba(255,184,32,.2);
+}
+
+.player-info{
+  min-width:0;
+}
+
+.player-name{
+  font-size:15px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.level-row{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.level{
+  background:#ffb51d;
+  color:#151522;
+  border-radius:7px;
+  padding:3px 7px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.xpbar{
+  width:70px;
+  height:6px;
+  background:#363851;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.xpbar span{
+  display:block;
+  width:48%;
+  height:100%;
+  background:#ffc02c;
+  border-radius:10px;
+}
+
+.xptext{
+  color:#a7a9c0;
+  font-size:9px;
+}
+
+/* العملات */
+.wallet{
+  display:flex;
+  gap:6px;
+}
+
+.money{
+  height:40px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:5px 8px;
+  border-radius:16px;
+  background:#171a38;
+  border:1px solid rgba(255,255,255,.1);
+  font-weight:900;
+  font-size:12px;
+}
+
+.money-icon{
+  font-size:18px;
+}
+
+.money .plus{
+  width:19px;
+  height:19px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffb91f;
+  color:#151522;
+  margin-right:2px;
+  font-size:14px;
+}
+
+/* الشعار */
+.hero{
+  text-align:center;
+  margin-top:38px;
+}
+
+.crown{
+  font-size:38px;
+  animation:float 2.5s ease-in-out infinite;
+  filter:drop-shadow(0 5px 10px rgba(255,186,34,.4));
+}
+
+.logo{
+  position:relative;
+  display:inline-block;
+  margin-top:-3px;
+  color:#ffc42b;
+  font-size:56px;
+  line-height:1;
+  font-weight:1000;
+  letter-spacing:-5px;
+  text-shadow:
+    3px 3px 0 #e8730d,
+    6px 6px 0 #121326,
+    0 12px 28px rgba(255,173,25,.25);
+}
+
+.logo::after{
+  content:"";
+  position:absolute;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#ffca32;
+  top:5px;
+  left:5px;
+  box-shadow:0 0 15px #ffb51b;
+}
+
+.tagline{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:17px auto 0;
+  padding:11px 18px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#202442,#171a35);
+  border:1px solid rgba(255,188,37,.5);
+  box-shadow:0 8px 25px rgba(0,0,0,.18);
+  font-size:15px;
+  font-weight:900;
+}
+
+/* زر اللعب */
+.play-button{
+  position:relative;
+  width:100%;
+  margin-top:30px;
+  padding:18px 20px;
+  border-radius:22px;
+  color:#171522;
+  background:linear-gradient(180deg,#ffd441,#ff9d18);
+  font-size:26px;
+  font-weight:1000;
+  box-shadow:
+    0 7px 0 #c86712,
+    0 14px 30px rgba(255,165,20,.22);
+  transition:.15s ease;
+  overflow:hidden;
+}
+
+.play-button::before{
+  content:"";
+  position:absolute;
+  width:70px;
+  height:100%;
+  top:0;
+  right:-100px;
+  transform:skewX(-20deg);
+  background:rgba(255,255,255,.22);
+  animation:shine 3s infinite;
+}
+
+.play-button:active{
+  transform:translateY(6px);
+  box-shadow:0 2px 0 #c86712;
+}
+
+.play-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:35px;
+  height:35px;
+  margin-left:8px;
+  border-radius:50%;
+  background:#19182a;
+  color:#ffd13c;
+  font-size:18px;
+}
+
+/* كروت القائمة */
+.menu{
+  margin-top:25px;
+  display:grid;
+  gap:11px;
+}
+
+.menu-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  width:100%;
+  padding:15px 16px;
+  border-radius:19px;
+  color:white;
+  text-align:right;
+  background:linear-gradient(100deg,#1b1e40,#11142d);
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 8px 20px rgba(0,0,0,.17);
+  transition:.2s;
+}
+
+.menu-card:active{
+  transform:scale(.98);
+  background:#24274c;
+}
+
+.menu-icon{
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:15px;
+  background:linear-gradient(145deg,#282b55,#171a38);
+  font-size:24px;
+  margin-left:13px;
+}
+
+.menu-text{
+  flex:1;
+}
+
+.menu-title{
+  font-size:17px;
+  font-weight:1000;
+}
+
+.menu-desc{
+  color:#9ea1bc;
+  font-size:11px;
+  margin-top:5px;
+}
+
+.arrow{
+  color:#c8c9d9;
+  font-size:24px;
+}
+
+/* مكافأة */
+.daily{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:20px;
+  padding:13px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#251d3c,#17182f);
+  border:1px solid rgba(255,190,35,.28);
+}
+
+.gift{
+  width:50px;
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:15px;
+  background:#2a2048;
+  font-size:28px;
+}
+
+.daily-text{
+  flex:1;
+}
+
+.daily-title{
+  font-size:14px;
+  font-weight:1000;
+}
+
+.daily-desc{
+  margin-top:4px;
+  color:#a8aac0;
+  font-size:11px;
+}
+
+.collect{
+  padding:9px 12px;
+  border-radius:11px;
+  background:#ffb51d;
+  color:#171522;
+  font-size:11px;
+  font-weight:1000;
+}
+
+/* الفوتر */
+.footer{
+  text-align:center;
+  margin-top:25px;
+  color:#747792;
+  font-size:11px;
+}
+
+.crown-small{
+  color:#ffbd26;
+  margin:0 5px;
+}
+
+/* إشعار */
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,120px);
+  width:calc(100% - 40px);
+  max-width:400px;
+  padding:14px 18px;
+  text-align:center;
+  border-radius:16px;
+  background:#252847;
+  border:1px solid rgba(255,190,35,.35);
+  box-shadow:0 12px 35px rgba(0,0,0,.4);
+  font-size:14px;
+  font-weight:bold;
+  transition:.35s;
+  z-index:20;
+}
+
+.toast.show{
+  transform:translate(-50%,0);
+}
+
+/* أنيميشن */
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
+}
+
+@keyframes shine{
+  0%{right:-100px}
+  35%,100%{right:120%}
+}
+
+/* شاشات صغيرة */
+@media(max-width:370px){
+  .money{
+    padding:5px 6px;
+  }
+
+  .money-icon{
+    font-size:15px;
+  }
+
+  .logo{
+    font-size:48px;
+  }
+
+  .tagline{
+    font-size:13px;
+  }
+
+  .wallet{
+    gap:4px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+
+<main class="app">
+
+  <!-- الهيدر -->
+  <header class="topbar">
+
+    <div class="profile">
+      <div class="avatar">😎</div>
+
+      <div class="player-info">
+        <div class="player-name">محمد</div>
+
+        <div class="level-row">
+          <span class="level">Lv. 3</span>
+
+          <div class="xpbar">
+            <span></span>
+          </div>
+
+          <span class="xptext">120/250</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wallet">
+
+      <div class="money">
+        <span class="money-icon">🪙</span>
+        <span>1,250</span>
+        <span class="plus">+</span>
+      </div>
+
+      <div class="money">
+        <span class="money-icon">💎</span>
+        <span>35</span>
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- الشعار -->
+  <section class="hero">
+
+    <div class="crown">👑</div>
+
+    <h1 class="logo">بِصراحة</h1>
+
+    <div class="tagline">
+      قول الحقيقة... واكتشف الكدب! 👀
+    </div>
+
+  </section>
+
+
+  <!-- زر اللعب -->
+  <button class="play-button" onclick="playGame()">
+    <span class="play-icon">▶</span>
+    العب الآن
+  </button>
+
+
+  <!-- القائمة -->
+  <section class="menu">
+
+    <button class="menu-card" onclick="showMessage('اللعب الجماعي قريبًا 🔥')">
+      <div class="menu-icon">👥</div>
+
+      <div class="menu-text">
+        <div class="menu-title">اللعب الجماعي</div>
+        <div class="menu-desc">نافس أصحابك واكتشف مين بيكدب</div>
+      </div>
+
+      <div class="arrow">‹</div>
+    </button>
+
+
+    <button class="menu-card" onclick="showMessage('المراحل هتكون مليانة مفاجآت 👀')">
+      <div class="menu-icon">🏆</div>
+
+      <div class="menu-text">
+        <div class="menu-title">المراحل</div>
+        <div class="menu-desc">تحديات جديدة في انتظارك</div>
+      </div>
+
+      <div class="arrow">‹</div>
+    </button>
+
+
+    <button class="menu-card" onclick="showMessage('المتجر هيكون فيه مكافآت مميزة 💎')">
+      <div class="menu-icon">🛍️</div>
+
+      <div class="menu-text">
+        <div class="menu-title">المتجر</div>
+        <div class="menu-desc">مكافآت وشخصيات وعناصر مميزة</div>
+      </div>
+
+      <div class="arrow">‹</div>
+    </button>
+
+
+    <button class="menu-card" onclick="showMessage('هنا هتشوف تقدمك وإنجازاتك 📊')">
+      <div class="menu-icon">📊</div>
+
+      <div class="menu-text">
+        <div class="menu-title">إحصائياتك</div>
+        <div class="menu-desc">شوف مستواك ونسبة فوزك</div>
+      </div>
+
+      <div class="arrow">‹</div>
+    </button>
+
+  </section>
+
+
+  <!-- المكافأة اليومية -->
+  <section class="daily">
+
+    <div class="gift">🎁</div>
+
+    <div class="daily-text">
+      <div class="daily-title">مكافأة يومية</div>
+      <div class="daily-desc">ادخل كل يوم وخد جائزتك!</div>
+    </div>
+
+    <button class="collect" onclick="collectReward()">
+      استلام
+    </button>
+
+  </section>
+
+
+  <footer class="footer">
+    <span class="crown-small">♛</span>
+    بِصراحة... كل شيء ممكن!
+    <span class="crown-small">♛</span>
+  </footer>
+
+</main>
+
+
+<!-- رسالة -->
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+function showMessage(message){
+
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },2200);
+}
+
+
+function playGame(){
+
+  showMessage("🎮 تجهيز أول تحدي...");
+
+  setTimeout(()=>{
+
+    document.body.style.opacity = "0";
+
+    setTimeout(()=>{
+      document.body.style.opacity = "1";
+      showMessage("🔥 أول مرحلة هتكون جاهزة قريب!");
+    },350);
+
+  },700);
+}
+
+
+function collectReward(){
+
+  showMessage("🎁 حصلت على 100 عملة!");
+
+}
+
+
+</script>
+
+</body>
+  </html>
