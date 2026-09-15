@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08091d">
+
+<title>بِصراحة — القضية الأولى</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  min-height:100vh;
+  font-family:Tahoma,Arial,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at 50% 10%,#38236e,transparent 35%),
+    radial-gradient(circle at 0 90%,#291348,transparent 35%),
+    linear-gradient(150deg,#070817,#11102d 55%,#08091b);
+}
+
+button{
+  font-family:inherit;
+  border:0;
+  cursor:pointer;
+}
+
+.app{
+  width:100%;
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  padding:18px 16px 35px;
+}
+
+/* =====================
+   الهيدر
+===================== */
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.back{
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  background:#171832;
+  border:1px solid #39365e;
+  color:white;
+  font-size:24px;
+}
+
+.case-number{
+  padding:10px 17px;
+  border-radius:15px;
+  background:#191a3b;
+  border:1px solid #51458f;
+  color:#ffc52c;
+  font-weight:900;
+  font-size:14px;
+}
+
+/* =====================
+   عنوان القضية
+===================== */
+
+.case-title{
+  text-align:center;
+  margin-top:28px;
+}
+
+.detective{
+  font-size:47px;
+  animation:float 2.5s infinite;
+}
+
+.case-title h1{
+  margin-top:8px;
+  font-size:31px;
+  font-weight:1000;
+  color:#ffc52c;
+  text-shadow:2px 3px #a95214;
+}
+
+.case-title p{
+  margin-top:9px;
+  color:#aaaac0;
+  font-size:13px;
+}
+
+/* =====================
+   الموقف
+===================== */
+
+.story{
+  margin-top:27px;
+  padding:22px 19px;
+  border-radius:25px;
+  background:linear-gradient(145deg,#1a1b40,#10122c);
+  border:1px solid rgba(122,103,240,.4);
+  box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+.story-label{
+  display:inline-block;
+  padding:7px 11px;
+  border-radius:10px;
+  background:#292653;
+  color:#ffc52c;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.story h2{
+  margin-top:15px;
+  font-size:21px;
+  line-height:1.6;
+}
+
+.story p{
+  margin-top:10px;
+  color:#b5b6c9;
+  font-size:14px;
+  line-height:1.9;
+}
+
+/* =====================
+   التعليمات
+===================== */
+
+.instruction{
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:17px;
+  background:rgba(255,194,43,.08);
+  border:1px solid rgba(255,194,43,.25);
+  color:#e4e4ef;
+  font-size:13px;
+  line-height:1.7;
+  text-align:center;
+}
+
+/* =====================
+   الشخصيات
+===================== */
+
+.characters{
+  margin-top:22px;
+  display:grid;
+  gap:13px;
+}
+
+.person{
+  width:100%;
+  display:flex;
+  align-items:center;
+  text-align:right;
+  padding:15px;
+  border-radius:23px;
+  background:linear-gradient(110deg,#181a3b,#10122c);
+  border:2px solid transparent;
+  color:white;
+  transition:.2s;
+}
+
+.person:active{
+  transform:scale(.98);
+}
+
+.person.selected{
+  border-color:#ffc52c;
+  background:linear-gradient(110deg,#29254b,#15162f);
+}
+
+.person-avatar{
+  width:64px;
+  height:64px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:20px;
+  background:#292b51;
+  font-size:35px;
+  margin-left:15px;
+}
+
+.person-info{
+  flex:1;
+}
+
+.person-name{
+  font-size:18px;
+  font-weight:1000;
+}
+
+.statement{
+  margin-top:8px;
+  color:#b8b9c9;
+  font-size:13px;
+  line-height:1.65;
+}
+
+.choose{
+  color:#8078ad;
+  font-size:12px;
+  margin-right:8px;
+}
+
+/* =====================
+   زر التأكيد
+===================== */
+
+.check{
+  width:100%;
+  margin-top:22px;
+  padding:17px;
+  border-radius:19px;
+  background:linear-gradient(#ffd342,#ff9716);
+  color:#151522;
+  font-size:19px;
+  font-weight:1000;
+  box-shadow:0 6px #c96715;
+}
+
+.check:active{
+  transform:translateY(5px);
+  box-shadow:0 1px #c96715;
+}
+
+/* =====================
+   النتيجة
+===================== */
+
+.result{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(5,6,20,.82);
+  backdrop-filter:blur(8px);
+}
+
+.result.show{
+  display:flex;
+}
+
+.result-box{
+  width:100%;
+  max-width:430px;
+  padding:30px 22px;
+  text-align:center;
+  border-radius:30px;
+  background:linear-gradient(145deg,#202148,#10122d);
+  border:1px solid #6454b6;
+  box-shadow:0 25px 70px rgba(0,0,0,.5);
+}
+
+.result-icon{
+  font-size:58px;
+}
+
+.result-box h2{
+  margin-top:13px;
+  font-size:27px;
+}
+
+.result-box p{
+  margin-top:12px;
+  color:#b5b6c9;
+  line-height:1.8;
+  font-size:14px;
+}
+
+.result-btn{
+  width:100%;
+  margin-top:23px;
+  padding:16px;
+  border-radius:18px;
+  background:#ffc52c;
+  color:#171522;
+  font-size:17px;
+  font-weight:1000;
+}
+
+/* =====================
+   Toast
+===================== */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  width:calc(100% - 40px);
+  max-width:420px;
+  padding:14px;
+  border-radius:16px;
+  background:#222443;
+  border:1px solid #51468e;
+  text-align:center;
+  font-size:13px;
+  transform:translate(-50%,130px);
+  transition:.3s;
+  z-index:50;
+}
+
+.toast.show{
+  transform:translate(-50%,0);
+}
+
+@keyframes float{
+  0%,100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-7px);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+  <!-- الهيدر -->
+
+  <div class="top">
+
+    <button
+      class="back"
+      onclick="goHome()">
+      →
+    </button>
+
+    <div class="case-number">
+      القضية #001
+    </div>
+
+  </div>
+
+
+  <!-- عنوان القضية -->
+
+  <section class="case-title">
+
+    <div class="detective">
+      🕵️
+    </div>
+
+    <h1>
+      لغز الهاتف المفقود
+    </h1>
+
+    <p>
+      ركّز في كل كلمة... الكذاب ممكن يكون قدامك 👀
+    </p>
+
+  </section>
+
+
+  <!-- القصة -->
+
+  <section class="story">
+
+    <span class="story-label">
+      📋 الموقف
+    </span>
+
+    <h2>
+      اختفى هاتف من غرفة المعيشة!
+    </h2>
+
+    <p>
+      في الساعة <strong>8:00 مساءً</strong>، اكتشف صاحب المنزل
+      أن هاتفه اختفى من فوق الطاولة.
+      كان هناك ثلاثة أشخاص في المنزل وقت اختفاء الهاتف.
+      كل واحد منهم قال أين كان وقتها...
+    </p>
+
+  </section>
+
+
+  <div class="instruction">
+    🔎 اقرأ كلام الثلاثة كويس،
+    وبعدها اختار الشخص اللي تعتقد إنه الكذاب.
+  </div>
+
+
+  <!-- الشخصيات -->
+
+  <section class="characters">
+
+    <button
+      class="person"
+      onclick="selectPerson(this, 'أحمد')">
+
+      <div class="person-avatar">
+        👨🏻
+      </div>
+
+      <div class="person-info">
+
+        <div class="person-name">
+          أحمد
+        </div>
+
+        <div class="statement">
+          «كنت في المطبخ بعمل لنفسي شاي
+          من الساعة 7:50 لحد 8:10.»
+        </div>
+
+      </div>
+
+      <div class="choose">
+        اختر
+      </div>
+
+    </button>
+
+
+    <button
+      class="person"
+      onclick="selectPerson(this, 'يوسف')">
+
+      <div class="person-avatar">
+        🧔🏻
+      </div>
+
+      <div class="person-info">
+
+        <div class="person-name">
+          يوسف
+        </div>
+
+        <div class="statement">
+          «كنت قاعد في الصالة بتفرج على التلفزيون،
+          وما تحركتش من مكاني.»
+        </div>
+
+      </div>
+
+      <div class="choose">
+        اختر
+      </div>
+
+    </button>
+
+
+    <button
+      class="person"
+      onclick="selectPerson(this, 'كريم')">
+
+      <div class="person-avatar">
+        👨🏽
+      </div>
+
+      <div class="person-info">
+
+        <div class="person-name">
+          كريم
+        </div>
+
+        <div class="statement">
+          «أنا كنت بره البيت،
+          ورجعت الساعة 8:30.»
+        </div>
+
+      </div>
+
+      <div class="choose">
+        اختر
+      </div>
+
+    </button>
+
+  </section>
+
+
+  <button
+    class="check"
+    onclick="checkAnswer()">
+
+    تأكيد الإجابة 🔍
+
+  </button>
+
+</main>
+
+
+<!-- شاشة النتيجة -->
+
+<div id="result" class="result">
+
+  <div class="result-box">
+
+    <div id="resultIcon" class="result-icon">
+      🎉
+    </div>
+
+    <h2 id="resultTitle">
+      أحسنت!
+    </h2>
+
+    <p id="resultText">
+      لقد اكتشفت الكذاب.
+    </p>
+
+    <button
+      class="result-btn"
+      onclick="nextCase()">
+
+      القضية التالية →
+      
+    </button>
+
+  </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+let selectedPerson = null;
+
+
+/* اختيار شخص */
+
+function selectPerson(button,name){
+
+  document
+    .querySelectorAll(".person")
+    .forEach(function(person){
+      person.classList.remove("selected");
+    });
+
+  button.classList.add("selected");
+
+  selectedPerson = name;
+
+  showToast(
+    "تم اختيار " + name + " 🔎"
+  );
+}
+
+
+/* فحص الإجابة */
+
+function checkAnswer(){
+
+  if(!selectedPerson){
+
+    showToast(
+      "اختار شخص الأول 👀"
+    );
+
+    return;
+  }
+
+  const result =
+    document.getElementById("result");
+
+  const icon =
+    document.getElementById("resultIcon");
+
+  const title =
+    document.getElementById("resultTitle");
+
+  const text =
+    document.getElementById("resultText");
+
+
+  /*
+    الإجابة الصحيحة في القضية الأولى:
+    يوسف
+  */
+
+  if(selectedPerson === "يوسف"){
+
+    icon.textContent = "🎉";
+
+    title.textContent =
+      "إجابة صحيحة! 🔥";
+
+    text.textContent =
+      "برافو! يوسف هو الكذاب. " +
+      "كان بيقول إنه ما تحركش من مكانه، " +
+      "لكن تفاصيل القضية بتكشف إن كلامه مش متوافق مع الأحداث.";
+
+  }else{
+
+    icon.textContent = "😅";
+
+    title.textContent =
+      "مش هو الكذاب!";
+
+    text.textContent =
+      "الإجابة دي مش صحيحة. " +
+      "راجع كلام الشخصيات وحاول تلاحظ التناقضات بشكل أدق.";
+
+  }
+
+  result.classList.add("show");
+}
+
+
+/* العودة للرئيسية */
+
+function goHome(){
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+/* القضية التالية */
+
+function nextCase(){
+
+  showToast(
+    "🚧 القضية التالية قيد التجهيز!"
+  );
+
+  setTimeout(function(){
+
+    document
+      .getElementById("result")
+      .classList.remove("show");
+
+  },1200);
+}
+
+
+/* رسالة صغيرة */
+
+function showToast(text){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = text;
+
+  toast.classList.add("show");
+
+  setTimeout(function(){
+
+    toast.classList.remove("show");
+
+  },2000);
+}
+
+</script>
+
+</body>
+  </html>
